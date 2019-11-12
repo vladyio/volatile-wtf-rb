@@ -86,6 +86,14 @@ By default, Storage is initialized with salt equal to `SecureRandom.hex[0..5]` a
 Storage = Volatile::Storage.new('my_own_salt')
 ```
 
+Or you can change salt later with `#salt=` method:
+
+```ruby
+Storage.salt = 'my_own_salt'
+```
+
+__Warning!__ You can loose links to previously stored data if you change salt using `#salt=` method, because old `@salt` value will be erased.
+
 #### Retrieving a real key name
 
 If you want to get a real (salted) key name, you should use `Storage#real_key`:
