@@ -13,13 +13,13 @@ module Volatile
 
     def created_at(key)
       resp = get_from uri_with key, nil, 'created'
-      Time.at(resp.body.to_i)
+      Time.at(resp.to_i)
     end
     alias created created_at
 
     def updated_at(key)
       resp = get_from uri_with key, nil, 'modified'
-      Time.at(resp.body.to_i)
+      Time.at(resp.to_i)
     end
     alias modified updated_at
 
