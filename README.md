@@ -36,6 +36,12 @@ Storage = Volatile::Storage.new
 Storage['user_name'] = 'Alice' # => 'Alice'
 ```
 
+If you want to create a pair independent from your Storage, use `Storage.push`:
+
+```ruby
+Storage.push('random_key', 'random_val')
+```
+
 You can use symbols as keys, but you'll still have to use strings to get values.
 
 ### Retrieve a value by key
@@ -44,6 +50,12 @@ Using `#[](key)` retrieves a key from current Storage instance:
 
 ```ruby
 Storage['user_name'] # => 'Alice'
+```
+
+If you want to retrieve a value by a custom key independent from your Storage, use `Storage.pull`:
+
+```ruby
+Storage.pull('random_key') # => 'random_val'
 ```
 
 ### `created` and `modified` timestamps
