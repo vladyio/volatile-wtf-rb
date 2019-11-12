@@ -64,20 +64,12 @@ Storage.pull('random_key') # => 'random_val'
 
 - Created
   ```ruby
-  Storage['user_name'].created_at # => 2019-11-12 16:55:45 +0300
-
-  # created is an alias for created_at:
-
-  Storage['user_name'].created # => 2019-11-12 16:55:45 +0300
+  Storage.created('user_name') # => 2019-11-12 16:55:45 +0300
   ```
 - Modified
 
   ```ruby
-  Storage['user_name'].updated_at # => 2019-11-12 17:40:45 +0300
-
-  # modified is an alias for updated_at:
-
-  Storage['user_name'].modified # => 2019-11-12 17:40:45 +0300
+  Storage.modified('user_name') # => 2019-11-12 17:40:45 +0300
   ```
 
 ### Salted keys (or simply key prefixes)

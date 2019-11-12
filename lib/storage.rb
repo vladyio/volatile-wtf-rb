@@ -29,6 +29,14 @@ module Volatile
       { key => value }
     end
 
+    def created(key)
+      @manager.created_at(key)
+    end
+
+    def modified(key)
+      @manager.updated_at(key)
+    end
+
     def real_key(key)
       "#{@salt}_#{key}"
     end
