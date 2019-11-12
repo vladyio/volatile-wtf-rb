@@ -1,5 +1,5 @@
 require 'securerandom'
-
+require 'set'
 module Volatile
   class Storage
     attr_accessor :salt
