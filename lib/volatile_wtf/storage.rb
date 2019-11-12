@@ -3,7 +3,6 @@ require 'set'
 module Volatile
   class Storage
     attr_accessor :salt
-    attr_reader :key, :value
 
     def initialize(salt = nil)
       @salt = salt || SecureRandom.hex[0..5]
