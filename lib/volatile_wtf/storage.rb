@@ -30,11 +30,11 @@ module Volatile
     end
 
     def created(key)
-      @manager.created_at(key)
+      @manager.created_at(real_key(key))
     end
 
     def modified(key)
-      @manager.updated_at(key)
+      @manager.updated_at(real_key(key))
     end
 
     def real_key(key)
