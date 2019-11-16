@@ -1,12 +1,16 @@
 # VolatileWTF
 
-[![Gem Version](https://badge.fury.io/rb/volatile_wtf@2x.png)](https://badge.fury.io/rb/volatile_wtf)
+[![Gem Version](https://badge.fury.io/rb/volatile_wtf.png)](https://badge.fury.io/rb/volatile_wtf)
 
 A Ruby wrapper for [Volatile](https://volatile.wtf/), a key-value pair API that everyone can use.
 
+More documentation at [RDoc](https://www.rubydoc.info/gems/volatile_wtf).
+
 ## Installation
 
-`gem install volatile_wtf`
+```bash
+gem install volatile_wtf
+```
 
 or for a Gemfile:
 
@@ -20,12 +24,6 @@ bundle install
 
 ## Usage
 
-Don't forget to require the gem:
-
-```ruby
-require 'volatile_wtf'
-```
-
 ### Initialize storage object
 
 ```ruby
@@ -38,26 +36,24 @@ Storage = Volatile::Storage.new
 Storage['user_name'] = 'Alice' # => 'Alice'
 ```
 
-If you want to create a pair independent from your Storage, use `Storage.push`:
+If you want to create a pair independent from your Storage:
 
 ```ruby
-Storage.push('random_key', 'random_val')
+Storage.set('random_key', 'random_val')
 ```
 
-You can use symbols as keys, but you'll still have to use strings to get values.
+You can use symbols as keys, but it is not recommended.
 
 ### Retrieve a value by key
-
-Using `#[](key)` retrieves a key from current Storage instance:
 
 ```ruby
 Storage['user_name'] # => 'Alice'
 ```
 
-If you want to retrieve a value by a custom key independent from your Storage, use `Storage.pull`:
+If you want to retrieve a value by a custom key independent from your Storage, use `Storage.get`:
 
 ```ruby
-Storage.pull('random_key') # => 'random_val'
+Storage.get('random_key') # => 'random_val'
 ```
 
 ### `created` and `modified` timestamps
@@ -74,39 +70,39 @@ Storage.pull('random_key') # => 'random_val'
   Storage.modified('user_name') # => 2019-11-12 17:40:45 +0300
   ```
 
-### Salted keys (or simply key prefixes)
+### Namespaces
 
-Salt is used for keys to make them trackable within this gem.
+Namespace is used for distinguishing keys from different Storages.
 
-#### Passing your own salt
+#### Passing your own namespace
 
-By default, Storage is initialized with salt equal to `SecureRandom.hex[0..5]` and makes keys look like `0123ab_some` instead of just `some`. You can pass your own salt value like this:
-
-```ruby
-Storage = Volatile::Storage.new('my_own_salt')
-```
-
-Or you can change salt later with `#salt=` method:
+By default, Storage is initialized with a namespace equal to `SecureRandom.hex[0..5]` and makes keys look like `0123ab_some` instead of just `some`. You can pass your own value like this:
 
 ```ruby
-Storage.salt = 'my_own_salt'
+Storage = Volatile::Storage.new('my_ns')
 ```
 
-__Warning!__ You can loose links to previously stored data if you change salt using `#salt=` method, because old `@salt` value will be erased.
-
-#### Retrieving a real key name
-
-If you want to get a real (salted) key name, you should use `Storage#real_key`:
+Or you can change namespace later:
 
 ```ruby
-Storage.real_key('nice_key') # => '0123ab_nice_key'
+Storage.namespace = 'my_own_ns'
 ```
 
-Don't forget that every `Volatile::Storage.new` has its own salt value.
+__Warning!__ You can loose links to previously stored data if you change a namespace.
+
+#### Generating a namespaced key name
+
+If you want to get a namespaced key name, you should use `Storage#namespaced_key`:
+
+```ruby
+Storage.namespaced_key('nice_key') # => '0123ab_nice_key'
+```
+
+Don't forget that every `Volatile::Storage.new` has its own namespace.
 
 ### Hash conversion (`#to_h`)
 
-By default, `#to_h` generates a hash with friendly keys without salt:
+By default, `#to_h` generates a hash with friendly keys without a namespace:
 
 ```ruby
 {
@@ -115,10 +111,10 @@ By default, `#to_h` generates a hash with friendly keys without salt:
 }
 ```
 
-To generate a hash with real keys, use `with_real_keys: true` parameter:
+To generate a hash with namespaced keys, use `use_namespace: true` parameter:
 
 ```ruby
-Storage.to_h(with_real_keys: true)
+Storage.to_h(use_namespace: true)
 ```
 
 This will return the following result:

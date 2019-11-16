@@ -1,50 +1,68 @@
 require 'securerandom'
 require 'set'
+
 module Volatile
   class Storage
-    attr_accessor :salt
+    attr_accessor :namespace
 
-    def initialize(salt = nil)
-      @salt = salt || SecureRandom.hex[0..5]
+    def initialize(namespace = nil)
+      @namespace = namespace || SecureRandom.hex[0..5]
       @keys = Set.new
       @manager = Manager.new
     end
 
+    # Gets value by key (with a namespace)
+    # Returns a `Volatile::Pair` instance, so that #modified and #created
+    # are easily accessible.
     def [](key)
-      @manager.retrieve(real_key(key))
+      key = namespaced_key(key)
+      get(key)
     end
 
+    # Sets value for a given key (with a namespace). Keeps the key for later
+    # to use in `to_h`
     def []=(key, value)
-      @keys << real_key(key)
-      @manager.store(real_key(key), value)
+      key = namespaced_key(key)
+      @keys << key
+      set(key, value)
     end
 
-    def pull(key)
+    # Gets value by key (without a namespace)
+    # Returns a `Volatile::Pair` instance, so that #modified and #created
+    # are easily accessible.
+    def get(key)
       @manager.retrieve(key)
     end
 
-    def push(key, value)
+    # Sets value for a given key (without a namespace)
+    def set(key, value)
       @manager.store(key, value)
       { key => value }
     end
 
+    # Refetch cached key
+    def reload(key)
+      @manager.reload(key)
+    end
+
     def created(key)
-      @manager.created_at(real_key(key))
+      @manager.created(key)
     end
 
     def modified(key)
-      @manager.updated_at(real_key(key))
+      @manager.modified(key)
     end
 
-    def real_key(key)
-      "#{@salt}_#{key}"
+    # Generates a namespaced option for a key name
+    def namespaced_key(key)
+      "#{@namespace}_#{key}"
     end
 
-    def to_h(with_real_keys = false)
+    def to_h(use_namespace = false)
       manager = @manager
 
       @keys.each_with_object({}) do |key, hash|
-        hash_key = with_real_keys ? key : key.sub("#{@salt}_", '')
+        hash_key = use_namespace ? key : key.sub("#{@namespace}_", '')
         hash[hash_key] = manager.retrieve(key)
       end
     end
