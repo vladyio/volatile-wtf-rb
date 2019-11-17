@@ -65,6 +65,7 @@ Storage.get('random_key') # => 'random_val'
 [Volatile](https://volatile.wtf/) allows to get information about when a key-pair was created and modified.
 
 - Created
+
   ```ruby
   Storage.created('user_name') # => 2019-11-12 16:55:45 +0300
   ```
@@ -73,6 +74,12 @@ Storage.get('random_key') # => 'random_val'
   ```ruby
   Storage.modified('user_name') # => 2019-11-12 17:40:45 +0300
   ```
+
+To get modifiers information for non-Storage keys use `external: true` parameter:
+
+```ruby
+Storage.modified('user_name', external: true)
+```
 
 ### Namespaces
 
