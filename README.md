@@ -24,8 +24,8 @@ bundle install
 
 ## Usage
 
-<p style="text-align: center" style="margin: 0 auto; display:flex">
-  <img src=".carbon.png">
+<p style="text-align: center">
+  <img src=".carbon.png" width="500" height="350">
 </p>
 
 ### Initialize storage object
