@@ -1,3 +1,4 @@
+require 'volatile_wtf/constants'
 require 'volatile_wtf/cache'
 require 'volatile_wtf/manager'
 require 'volatile_wtf/storage'

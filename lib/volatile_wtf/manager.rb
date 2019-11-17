@@ -2,8 +2,6 @@ require 'net/http'
 require 'uri'
 
 module Volatile
-  BASE_URL = 'https://volatile.wtf'
-
   # Manages the server side of Volatile storage, handles API requests
  class Manager
     def initialize
@@ -28,7 +26,7 @@ module Volatile
       time = key_modificator key, :created
       Time.at(time.to_i)
     end
-    
+
     def modified(key)
       time = key_modificator key, :modified
       Time.at(time.to_i)
