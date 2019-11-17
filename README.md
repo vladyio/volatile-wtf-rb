@@ -24,6 +24,10 @@ bundle install
 
 ## Usage
 
+<p style="text-align: center" style="margin: 0 auto; display:flex">
+  <img src=".carbon.png">
+</p>
+
 ### Initialize storage object
 
 ```ruby
