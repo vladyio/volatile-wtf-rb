@@ -45,11 +45,13 @@ module Volatile
       @manager.reload(key)
     end
 
-    def created(key)
+    def created(key, external: false)
+      key = external ? key : namespaced_key(key)
       @manager.created(key)
     end
 
-    def modified(key)
+    def modified(key, external: false)
+      key = external ? key : namespaced_key(key)
       @manager.modified(key)
     end
 
