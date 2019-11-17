@@ -11,7 +11,7 @@ module Volatile
     end
 
     def fetch(key, &block)
-      @storage.fetch(key) { block.call }
+      @storage.fetch(key, &block)
     end
   end
 end
