@@ -1,5 +1,8 @@
 # VolatileWTF
 
+# Volatile.wtf was closed :(
+# This repository is archived
+
 [![Gem Version](https://badge.fury.io/rb/volatile_wtf.png)](https://badge.fury.io/rb/volatile_wtf)
 
 A Ruby wrapper for [Volatile](https://volatile.wtf/), a key-value pair API that everyone can use.
